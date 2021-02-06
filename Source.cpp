@@ -37,6 +37,11 @@ int extract(string rawMat, int index) {
 	while (getline(split, temp, ' ')) {
 		tokens.push_back(temp);
 	}
+	for (int i = 0; i < tokens.size(); ++i) {
+		cout << tokens[i] << " ";
+	}
+	cout << endl;
+	cout << tokens[index];
 	stringstream scasti(tokens[index]);
 	int token;
 	scasti >> token;
