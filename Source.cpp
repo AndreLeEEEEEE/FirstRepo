@@ -19,6 +19,7 @@ string procSearch(string fileName, string searchTerm = "") {
 		while (getline(theFile, line)) {
 			if (line.find(searchTerm) != string::npos) {
 				result = line;
+				break;
 			}
 		}
 		theFile.close();
@@ -38,7 +39,7 @@ int extract(string rawMat, int index) {
 		tokens.push_back(temp);
 	}
 	for (int i = 0; i < tokens.size(); ++i) {
-		cout << tokens[i] << " ";
+		cout << tokens[i] << endl;
 	}
 	cout << endl;
 	cout << tokens[index] << endl;
