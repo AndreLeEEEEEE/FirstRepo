@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <typeinfo>
 using namespace std;
 
 string procSearch(string fileName, string searchTerm = "") {
@@ -36,7 +37,10 @@ int extract(string rawMat, int index) {
 	while (getline(split, temp, ' ')) {
 		tokens.push_back(temp);
 	}
-	int token = stoi(tokens[index]);
+	cout << tokens[index] << endl;
+	cout << typeid(tokens[index]).name() << endl;
+
+	int token = 0;
 
 	return token;
 }
