@@ -52,5 +52,7 @@ int main() {
 	//string totalMem = proc("meminfo", "MemTotal");
 	string availMem = proc("meminfo", "MemAvailable");
 
+	cout << availMem << endl;
+
 	return 0;
 }
