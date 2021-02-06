@@ -36,11 +36,7 @@ int extract(string rawMat, int index) {
 	while (getline(split, temp, ' ')) {
 		tokens.push_back(temp);
 	}
-	cout << tokens[index] << " ";
-	stringstream scasti(tokens[index]);
-	int token;
-	scasti >> token;
-	cout << token << endl;
+	int token = stoi(tokens[index]);
 
 	return token;
 }
@@ -80,6 +76,13 @@ int main() {
 
 	procLine = procSearch("meminfo", "MemAvailable");  // MemAvailable has a number and 'kB'
 	int availMem = extract(procLine, 1);
+
+	cout << bootTime << endl;
+	cout << bootDur << endl;
+	cout << usrMode << endl;
+	cout << sysMode << endl;
+	cout << totalMem << endl;
+	cout << availMem << endl;
 
 	return 0;
 }
