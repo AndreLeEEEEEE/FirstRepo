@@ -9,7 +9,7 @@
 #include <ctime>
 using namespace std;
 
-string proc(string fileName, string searchTerm = "") {
+string procSearch(string fileName, string searchTerm = "") {
 	// Find a file in proc using the relevant path and potential line identifier.
 	string line, result;
 	string path = "/proc/" + fileName;
@@ -25,8 +25,20 @@ string proc(string fileName, string searchTerm = "") {
 	else {
 		cout << "Unable to open file" << endl;
 	}
-
 	return result;
+}
+
+int extract(string rawMat, int index) {
+	string temp;
+	vector <string> tokens;
+	stringstream split(rawMat);
+
+	while (getline(split, temp, ' ')) {
+		tokens.push_back(temp);
+	}
+	int token = stoi(tokens[index]);
+
+	return token;
 }
 
 int main() {
@@ -45,13 +57,31 @@ int main() {
 	//}
 
 	// Part B - Proc Filesystem
+	string procLine;
 	// Max size of an int: 2147483647
-	//string lastBoot = proc("stat", "btime");  // btime has one number
-	//string bootDur = proc("uptime");
-	//string modes = proc("stat", "cpu");  // first number is time spent in user mode, third number is time spent in system mode
-	//string totalMem = proc("meminfo", "MemTotal");
-	string availMem = proc("meminfo", "MemAvailable");
+	procLine = procSearch("stat", "btime");  // btime has one number
+	int bootTime = extract(procLine, 1);
 
+	procLine = procSearch("uptime");  // there's no line identifier, just two numbers. However, the first number is time running since last boot
+	int bootDur = extract(procLine, 0);
+
+	procLine = procSearch("stat", "cpu");  // first number is time spent in user mode
+	int usrMode = extract(procLine, 1);
+
+	procLine = procSearch("stat", "cpu");  // third number is time spent in system mode
+	int sysMode = extract(procLine, 3);
+
+	procLine = procSearch("meminfo", "MemTotal");  // MemTotal has a number and 'kB'
+	int totalMem = extract(procLine, 0);
+
+	procLine = procSearch("meminfo", "MemAvailable");  // MemAvailable has a number and 'kB'
+	int availMem = extract(procLine, 2);
+
+	cout << bootTime << endl;
+	cout << bootDur << endl;
+	cout << usrMode << endl;
+	cout << sysMode << endl;
+	cout << totalMem << endl;
 	cout << availMem << endl;
 
 	return 0;
