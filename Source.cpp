@@ -41,7 +41,7 @@ int extract(string rawMat, int index) {
 		cout << tokens[i] << " ";
 	}
 	cout << endl;
-	cout << tokens[index];
+	cout << tokens[index] << endl;
 	stringstream scasti(tokens[index]);
 	int token;
 	scasti >> token;
