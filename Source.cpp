@@ -80,7 +80,7 @@ int main() {
 	int sysMode = extract(procLine, 4);
 
 	procLine = procSearch("meminfo", "MemTotal");  // MemTotal has a number and 'kB'
-	int totalMem = extract(procLine, 9);
+	int totalMem = extract(procLine, 8);
 
 	procLine = procSearch("meminfo", "MemAvailable");  // MemAvailable has a number and 'kB'
 	int availMem = extract(procLine, 4);
