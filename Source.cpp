@@ -25,6 +25,8 @@ string procSearch(string fileName, string searchTerm = "") {
 	else {
 		cout << "Unable to open file" << endl;
 	}
+	cout << result << endl;
+	
 	return result;
 }
 
@@ -62,29 +64,29 @@ int main() {
 	string procLine;
 	// Max size of an int: 2147483647
 	procLine = procSearch("stat", "btime");  // btime has one number
-	int bootTime = extract(procLine, 1);
+	//int bootTime = extract(procLine, 1);
 
 	procLine = procSearch("uptime");  // there's no line identifier, just two numbers. However, the first number is time running since last boot
-	int bootDur = extract(procLine, 0);
+	//int bootDur = extract(procLine, 0);
 
 	procLine = procSearch("stat", "cpu");  // first number is time spent in user mode
-	int usrMode = extract(procLine, 1);
+	//int usrMode = extract(procLine, 1);
 
 	procLine = procSearch("stat", "cpu");  // third number is time spent in system mode
-	int sysMode = extract(procLine, 3);
+	//int sysMode = extract(procLine, 3);
 
 	procLine = procSearch("meminfo", "MemTotal");  // MemTotal has a number and 'kB'
-	int totalMem = extract(procLine, 0);
+	//int totalMem = extract(procLine, 0);
 
 	procLine = procSearch("meminfo", "MemAvailable");  // MemAvailable has a number and 'kB'
-	int availMem = extract(procLine, 2);
+	//int availMem = extract(procLine, 2);
 
-	cout << bootTime << endl;
-	cout << bootDur << endl;
-	cout << usrMode << endl;
-	cout << sysMode << endl;
-	cout << totalMem << endl;
-	cout << availMem << endl;
+	//cout << bootTime << endl;
+	//cout << bootDur << endl;
+	//cout << usrMode << endl;
+	//cout << sysMode << endl;
+	//cout << totalMem << endl;
+	//cout << availMem << endl;
 
 	return 0;
 }
