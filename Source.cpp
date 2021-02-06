@@ -36,7 +36,9 @@ int extract(string rawMat, int index) {
 	while (getline(split, temp, ' ')) {
 		tokens.push_back(temp);
 	}
-	int token = stoi(tokens[index]);
+	stringstream scasti(tokens[index]);
+	int token;
+	scasti >> token;
 
 	return token;
 }
