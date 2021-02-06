@@ -41,8 +41,7 @@ int extract(string rawMat, int index) {
 	for (int i = 0; i < tokens.size(); ++i) {
 		cout << tokens[i] << endl;
 	}
-	cout << endl;
-	cout << tokens[index] << endl;
+	cout << "Token: " << tokens[index] << endl;
 	stringstream scasti(tokens[index]);
 	int token;
 	scasti >> token;
@@ -75,16 +74,16 @@ int main() {
 	int bootDur = extract(procLine, 0);
 
 	procLine = procSearch("stat", "cpu");  // first number is time spent in user mode
-	int usrMode = extract(procLine, 1);
+	int usrMode = extract(procLine, 2);
 
 	procLine = procSearch("stat", "cpu");  // third number is time spent in system mode
-	int sysMode = extract(procLine, 3);
+	int sysMode = extract(procLine, 4);
 
 	procLine = procSearch("meminfo", "MemTotal");  // MemTotal has a number and 'kB'
-	int totalMem = extract(procLine, 2);
+	int totalMem = extract(procLine, 9);
 
 	procLine = procSearch("meminfo", "MemAvailable");  // MemAvailable has a number and 'kB'
-	int availMem = extract(procLine, 2);
+	int availMem = extract(procLine, 4);
 
 	cout << bootTime << endl;
 	cout << bootDur << endl;
