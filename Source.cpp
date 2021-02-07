@@ -7,14 +7,14 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <time.h>
 #include <typeinfo>
-using namespace std;
 
-string procSearch(string fileName, string searchTerm = "") {
+std::string procSearch(std::string fileName, std::string searchTerm = "") {
 	// Find a file in proc using the relevant path and potential line identifier.
-	string line, result;
-	string path = "/proc/" + fileName;
-	ifstream theFile(path);
+	std::string line, result;
+	std::string path = "/proc/" + fileName;
+	std::ifstream theFile(path);
 	if (theFile.is_open()) {
 		while (getline(theFile, line)) {
 			if (line.find(searchTerm) != string::npos) {
@@ -25,12 +25,12 @@ string procSearch(string fileName, string searchTerm = "") {
 		theFile.close();
 	}
 	else {
-		cout << "Unable to open file" << endl;
+		printf("Unable to open file\n");
 	}
 	return result;
 }
 
-int extract(string rawMat, int index) {
+int extract(std::string rawMat, int index) {
 	string temp;
 	vector <string> tokens;
 	stringstream split(rawMat);
@@ -59,10 +59,10 @@ int main() {
 		printf("System name - %s\n", sysInfo.machine);
 		printf("System name - %s\n", sysInfo.nodename);
 	}
-	cout << endl;
+	printf("\n");
 
 	// Part B - Proc Filesystem
-	string procLine;
+	std::string procLine;
 	// Extract all the necessary information
 	procLine = procSearch("stat", "btime");  // btime has one number
 	int bootTime = extract(procLine, 1);
@@ -85,26 +85,26 @@ int main() {
 	// Time when system was last booted, yyyy-mm-dd hh:mm:ss
 	struct tm nowTime;
 	time_t now = bootTime;
-	::localtime_s(&nowTime, &now);
+	global::localtime_s(&nowTime, &now);
 
 	printf("Time when system was last booted: %d-%d-%d", 1900+nowTime.tm_year, 1+nowTime.tm_mon, nowTime.tm_mday);
 	printf(" %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time since system was last booted, dd:hh:mm:ss
 	now = bootDur;
-	::localtime_s(&nowTime, &now);
+	global::localtime_s(&nowTime, &now);
 
 	printf("Time since system was last booted: %d:%d:%d:%d\n", nowTime.tm_mday, nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time the CPU has spent in user mode
 	now = usrMode;
-	::localtime_s(&nowTime, &now);
+	global::localtime_s(&nowTime, &now);
 
 	printf("Amount of time the CPU has spent in user mode: %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time the CPU has spent in system mode
 	now = sysMode;
-	::localtime_s(&nowTime, &now);
+	global::localtime_s(&nowTime, &now);
 
 	printf("Amount of time the CPU has spent in system mode: %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
