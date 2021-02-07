@@ -1,6 +1,6 @@
 // Student: Andre Le, SID: 109069441, Due Date: Feb 14, 2021
 
-//#include <sys/utsname.h> 
+#include <sys/utsname.h> 
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -47,22 +47,23 @@ int extract(string rawMat, int index) {
 
 int main() {
 	// Part A - System Information
-	//struct utsname sysInfo;
+	struct utsname sysInfo;
 
-	//if (uname(&sysInfo) == -1) {
-	//	printf("uname failed");
-	//}
-	//else {
-	//	printf("System name - %s\n", sysInfo.sysname);
-	//	printf("System name - %s\n", sysInfo.release);
-	//	printf("System name - %s\n", sysInfo.version);
-	//	printf("System name - %s\n", sysInfo.machine);
-	//	printf("System name - %s\n", sysInfo.nodename);
-	//}
+	if (uname(&sysInfo) == -1) {
+		printf("uname failed");
+	}
+	else {
+		printf("System name - %s\n", sysInfo.sysname);
+		printf("System name - %s\n", sysInfo.release);
+		printf("System name - %s\n", sysInfo.version);
+		printf("System name - %s\n", sysInfo.machine);
+		printf("System name - %s\n", sysInfo.nodename);
+	}
+	cout << endl;
 
 	// Part B - Proc Filesystem
 	string procLine;
-	// Max size of an int: 2147483647
+	// Extract all the necessary information
 	procLine = procSearch("stat", "btime");  // btime has one number
 	int bootTime = extract(procLine, 1);
 
@@ -81,20 +82,37 @@ int main() {
 	procLine = procSearch("meminfo", "MemAvailable");  // MemAvailable has a number and 'kB'
 	int availMem = extract(procLine, 4);
 
-	// Time when system was last booted
-	struct tm localTime;
+	// Time when system was last booted, yyyy-mm-dd hh:mm:ss
+	struct tm nowTime;
 	time_t now = bootTime;
-	localtime_s(&localTime, &now);
+	localtime_s(&nowTime, &now);
 
-	// Amount of time since system was last booted
+	printf("Time when system was last booted: %d-%d-%d", 1900+nowTime.tm_year, 1+nowTime.tm_mon, nowTime.tm_mday);
+	printf(" %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
+
+	// Amount of time since system was last booted, dd:hh:mm:ss
 	now = bootDur;
-	localtime_s(&localTime, &now);
+	localtime_s(&nowTime, &now);
 
-	cout << usrMode << endl;
-	cout << sysMode << endl;
+	printf("Time since system was last booted: %d:%d:%d:%d\n", nowTime.tm_mday, nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
-	cout << "Total amount of memory in the system: " << totalMem << " kB" << endl;
-	cout << "Amount of memory currently available: " << availMem << " kB" << endl;
+	// Amount of time the CPU has spent in user mode
+	now = usrMode;
+	localtime_s(&nowTime, &now);
+
+	printf("Amount of time the CPU has spent in user mode: %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
+
+	// Amount of time the CPU has spent in system mode
+	now = sysMode;
+	localtime_s(&nowTime, &now);
+
+	printf("Amount of time the CPU has spent in system mode: %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
+
+	// Total amount of memory in the system
+	printf("Total amount of memory in the system: %d kB\n", totalMem);
+
+	// Amount of memory currently available in the system
+	printf("Amount of memory currently available: %d kB\n", availMem);
 
 	return 0;
 }
