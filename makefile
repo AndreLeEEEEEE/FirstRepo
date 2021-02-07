@@ -14,10 +14,10 @@ CC = g++
 CXXFLAGS = -g -std=c++11
 
 ######Change to match all .cpp files.  Do not include .h files####
-OBJS = list of o files
+OBJS = Source.cpp
 
 ######Change from target to name of output file
-TARGET = name of output file
+TARGET = FirstRepo
 
 ######Do NOT change this...Tabs Matter!#########
 $(TARGET): $(OBJS)
