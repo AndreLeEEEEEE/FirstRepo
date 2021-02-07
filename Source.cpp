@@ -85,26 +85,26 @@ int main() {
 	// Time when system was last booted, yyyy-mm-dd hh:mm:ss
 	struct tm nowTime;
 	time_t now = bootTime;
-	localtime_s(&nowTime, &now);
+	::localtime_s(&nowTime, &now);
 
 	printf("Time when system was last booted: %d-%d-%d", 1900+nowTime.tm_year, 1+nowTime.tm_mon, nowTime.tm_mday);
 	printf(" %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time since system was last booted, dd:hh:mm:ss
 	now = bootDur;
-	localtime_s(&nowTime, &now);
+	::localtime_s(&nowTime, &now);
 
 	printf("Time since system was last booted: %d:%d:%d:%d\n", nowTime.tm_mday, nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time the CPU has spent in user mode
 	now = usrMode;
-	localtime_s(&nowTime, &now);
+	::localtime_s(&nowTime, &now);
 
 	printf("Amount of time the CPU has spent in user mode: %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time the CPU has spent in system mode
 	now = sysMode;
-	localtime_s(&nowTime, &now);
+	::localtime_s(&nowTime, &now);
 
 	printf("Amount of time the CPU has spent in system mode: %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
