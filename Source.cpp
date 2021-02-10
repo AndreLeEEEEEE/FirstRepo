@@ -1,24 +1,23 @@
 // Student: Andre Le, SID: 109069441, Due Date: Feb 14, 2021
 
-#include <sys/utsname.h> 
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <ctime>
-using namespace std;
+#include <sys/utsname.h>  // For using the utsname struct
+#include <sstream>  // For string parsing and type casting
+#include <fstream>  // For reading files
+#include <string>  // For the use of strings
+#include <vector>  // For holding parsed strings
+#include <ctime>  // For formatting time values
+using namespace std;  // Reduces the size of statements
 
 string procSearch(string fileName, string searchTerm = "") {
-	// Find a file in proc using the relevant path and potential line identifier.
-	string line, result;
-	string path = "/proc/" + fileName;
-	ifstream theFile(path);
+// Find a file in proc using the relevant path and potential line identifier.
+	string line, result;  // For holding single strings of files
+	string path = "/proc/" + fileName;  // Combine to make the full path
+	ifstream theFile(path);  // Get the file
 	if (theFile.is_open()) {
-		while (getline(theFile, line)) {
-			if (line.find(searchTerm) != string::npos) {
-				result = line;
-				break;
+		while (getline(theFile, line)) {  // While there's something to be read
+			if (line.find(searchTerm) != string::npos) {  // Find the specific line
+				result = line;  // Save to result
+				break;  // Stop searching
 			}
 		}
 		theFile.close();
@@ -26,42 +25,44 @@ string procSearch(string fileName, string searchTerm = "") {
 	else {
 		printf("Unable to open file\n");
 	}
-	return result;
+	return result;  // Return the target line
 }
 
 int extract(string rawMat, int index) {
-	string temp;
-	vector <string> tokens;
-	stringstream split(rawMat);
+// Find a certain 'word' in a passed string.
+	string temp;  // For holding the current 'word'
+	vector <string> tokens;  // For holding the parsed line
+	stringstream split(rawMat);  // Make a sstream for the line
 
-	while (getline(split, temp, ' ')) {
-		tokens.push_back(temp);
+	while (getline(split, temp, ' ')) {  // While there's a 'word' in the line
+		tokens.push_back(temp);  // Append the current 'word' to tokens
 	}
-	stringstream scasti(tokens[index]);
+	stringstream scasti(tokens[index]);  // Make a sstream for the target 'word'
 	int token;
-	scasti >> token;
+	scasti >> token;  // Convert 'word' to integer
 
 	return token;
 }
 
 int main() {
 	// Part A - System Information
-	struct utsname sysInfo;
+	struct utsname sysInfo;  // System information structure
 
 	if (uname(&sysInfo) == -1) {
+	// Apparently this check needs to be here or else sysInfo will print nothing
 		printf("uname failed");
 	}
 	else {
-		printf("System name - %s\n", sysInfo.sysname);
-		printf("System name - %s\n", sysInfo.release);
-		printf("System name - %s\n", sysInfo.version);
-		printf("System name - %s\n", sysInfo.machine);
-		printf("System name - %s\n", sysInfo.nodename);
+		printf("System name - %s\n", sysInfo.sysname);  // System name
+		printf("System name - %s\n", sysInfo.release);  // Current release level of operating system
+		printf("System name - %s\n", sysInfo.version);  // Current version level of operating system
+		printf("System name - %s\n", sysInfo.machine);  // Machine name or hardware type of the machine
+		printf("System name - %s\n", sysInfo.nodename);  // Node name of the machine
 	}
-	printf("\n");
+	printf("\n");  // Spacing for readability
 
 	// Part B - Proc Filesystem
-	string procLine;
+	string procLine;  // For holding lines from files
 	// Extract all the necessary information
 	procLine = procSearch("stat", "btime");  // btime has one number
 	int bootTime = extract(procLine, 1);
@@ -82,18 +83,16 @@ int main() {
 	int availMem = extract(procLine, 4);
 
 	// Time when system was last booted, yyyy-mm-dd hh:mm:ss
-	struct tm nowTime;
-	time_t now = bootTime;
-	//localtime_s(&nowTime, &now);
-	nowTime = *localtime(&now);
+	struct tm nowTime;  // tm structure for individual and accurate time measurements
+	time_t now = bootTime;  // Replace time(0), current time, with the custom amount of seconds
+	nowTime = *localtime(&now);  // Make nowTime use the custom seconds
 
 	printf("Time when system was last booted: %d-%d-%d", 1900+nowTime.tm_year, 1+nowTime.tm_mon, nowTime.tm_mday);
 	printf(" %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time since system was last booted, dd:hh:mm:ss
-	now = bootDur;
-	//localtime_s(&nowTime, &now);
-	nowTime = *localtime(&now);
+	now = bootDur;  // Readjust now
+	nowTime = *localtime(&now);  // Readjust nowTime
 
 	printf("Time since system was last booted: %d:%d:%d:%d\n", nowTime.tm_mday, nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
