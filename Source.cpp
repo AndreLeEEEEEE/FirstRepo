@@ -54,10 +54,10 @@ int main() {
 	}
 	else {
 		printf("System name - %s\n", sysInfo.sysname);  // System name
-		printf("System name - %s\n", sysInfo.release);  // Current release level of operating system
-		printf("System name - %s\n", sysInfo.version);  // Current version level of operating system
-		printf("System name - %s\n", sysInfo.machine);  // Machine name or hardware type of the machine
-		printf("System name - %s\n", sysInfo.nodename);  // Node name of the machine
+		printf("Release - %s\n", sysInfo.release);  // Current release level of operating system
+		printf("Version - %s\n", sysInfo.version);  // Current version level of operating system
+		printf("Machine - %s\n", sysInfo.machine);  // Machine name or hardware type of the machine
+		printf("Nodename - %s\n", sysInfo.nodename);  // Node name of the machine
 	}
 	printf("\n");  // Spacing for readability
 
@@ -86,14 +86,12 @@ int main() {
 	struct tm nowTime;  // tm structure for individual and accurate time measurements
 	time_t now = bootTime;  // Replace time(0), current time, with the custom amount of seconds
 	nowTime = *localtime(&now);  // Make nowTime use the custom seconds
-
 	printf("Time when system was last booted: %d-%d-%d", 1900+nowTime.tm_year, 1+nowTime.tm_mon, nowTime.tm_mday);
 	printf(" %d:%d:%d\n", nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time since system was last booted, dd:hh:mm:ss
 	now = bootDur;  // Readjust now
 	nowTime = *localtime(&now);  // Readjust nowTime
-
 	printf("Time since system was last booted: %d:%d:%d:%d\n", nowTime.tm_mday, nowTime.tm_hour, nowTime.tm_min, nowTime.tm_sec);
 
 	// Amount of time the CPU has spent in user mode
